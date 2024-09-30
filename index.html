@@ -1,0 +1,148 @@
+
+<html >
+<head> 
+  <title>CodeWars Live Testing Portal</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>Welcome to CodeWars</h1>
+  </header>
+  <main>
+    <section id="landing-page">
+      <h2>Welcome to CodeWars Live Testing Portal</h2>
+      <p>Get ready to test your coding skills!</p>
+      <button id="login-btn">Login</button>
+    </section>
+    <section id="login-page" style="display: none;">
+      <h2>Login to CodeWars</h2>
+      <form id="login-form">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required><br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br>
+        <button type="submit">Login</button>
+      </form>
+      <p>Don't have an account? <a href="#" id="register-link">Register</a></p>
+    </section>
+    <section id="registration-page" style="display: none;">
+      <h2>Register for CodeWars</h2>
+      <form id="registration-form">
+        <label for="new-username">Username:</label>
+        <input type="text" id="new-username" name="new-username" required><br>
+        <label for="new-email">Email:</label>
+        <input type="email" id="new-email" name="new-email" required><br>
+        <label for="new-password">Password:</label>
+        <input type="password" id="new-password" name="new-password" required><br>
+        <button type="submit">Register</button>
+      </form>
+      <p>Already have an account? <a href="#" id="login-link">Login</a></p>
+    </section>
+    <section id="profile-page" style="display: none;">
+      <h2>Welcome, <span id="user-username"></span>!</h2>
+      <div id="profile-info">
+      </div>
+      <h3>Add your CodeWars script</h3>
+      <form id="add-document-form">
+        <label for="document-name">Team Name:</label>
+        <input type="text" id="document-name" name="document-name" required><br>
+        <label for="document-content">Script:</label><br>
+        <textarea id="document-content" name="document-content" rows="4" required></textarea><br>
+        <button type="submit">Add Scpipt</button>
+      </form>
+      <h3>Edit Script</h3>
+      <div id="document-container">
+
+      </div>
+    </section>
+  </main>
+  <script>document.addEventListener('DOMContentLoaded', function() {
+    const landingPage = document.getElementById('landing-page');
+    const loginPage = document.getElementById('login-page');
+    const registrationPage = document.getElementById('registration-page');
+    const profilePage = document.getElementById('profile-page');
+    const loginBtn = document.getElementById('login-btn');
+    const registerLink = document.getElementById('register-link');
+    const loginLink = document.getElementById('login-link');
+  
+    loginBtn.addEventListener('click', function() {
+      landingPage.style.display = 'none';
+      loginPage.style.display = 'block';
+    });
+  
+    registerLink.addEventListener('click', function(event) {
+      event.preventDefault();
+      loginPage.style.display = 'none';
+      registrationPage.style.display = 'block';
+    });
+  
+    loginLink.addEventListener('click', function(event) {
+      event.preventDefault();
+      registrationPage.style.display = 'none';
+      loginPage.style.display = 'block';
+    });
+  
+    const loginForm = document.getElementById('login-form');
+    const registrationForm = document.getElementById('registration-form');
+    const addDocumentForm = document.getElementById('add-document-form');
+  
+    loginForm.addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      console.log('Login form submitted');
+
+      loginPage.style.display = 'none';
+      profilePage.style.display = 'block';
+  
+      const username = document.getElementById('username').value;
+      document.getElementById('user-username').textContent = username;
+    });
+  
+    registrationForm.addEventListener('submit', function(event) {
+      event.preventDefault();
+  
+      console.log('Registration form submitted');
+    });
+  
+    addDocumentForm.addEventListener('submit', function(event) {
+      event.preventDefault();
+   
+      const documentName = document.getElementById('document-name').value;
+      const documentContent = document.getElementById('document-content').value;
+
+      console.log(`Document Name: ${documentName}, Document Content: ${documentContent}`);
+
+      addDocumentForm.reset();
+    });
+  
+
+    const documentContainer = document.getElementById('document-container');
+
+    const userDocument = {
+      name: "Sample Document",
+      content: "This is the content of the sample document."
+    };
+  
+
+    const documentElement = document.createElement('div');
+    documentElement.innerHTML = `
+      <strong>${userDocument.name}</strong><br>
+      <p>${userDocument.content}</p>
+      <button id="edit-document-btn">Edit Document</button>
+    `;
+    documentContainer.appendChild(documentElement);
+  
+
+    const editDocumentBtn = document.getElementById('edit-document-btn');
+    editDocumentBtn.addEventListener('click', function() {
+      const newContent = prompt("Enter new content for the document:", userDocument.content);
+      if (newContent !== null) {
+        userDocument.content = newContent;
+
+        documentElement.querySelector('p').textContent = newContent;
+      }
+    });
+  });
+    </script>
+</body>
+</html>
